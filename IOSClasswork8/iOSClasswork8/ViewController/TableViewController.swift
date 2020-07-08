@@ -24,8 +24,10 @@ class TableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! cardCell
 
+        cell.CityLable.text = cities[indexPath.row].name
+        cell.CityImageViewCell.image = UIImage(named: cities[indexPath.row].cardName)
         //📌أعرض الـ card للمدينة مع اسمها في الخلية
         // Configure the cell...
         return cell
@@ -39,6 +41,14 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //📌قم بالانتقال الى الواجهة التالية بعد وضع اسم الـ Segue و انقل هيكل الـCity المختار من قبل المستخدم
+        let city = cities[indexPath.row]
+        
+      performSegue(withIdentifier: "goweatherdetails", sender: city)
+        
+        
+        
+        
+        
         //📌استخدم دالةperformSegue(withIdentifier: , sender: T##Any?)
     }
     
@@ -49,7 +59,9 @@ class TableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //📌عين الواجهة الجديدة للانتقال اليها عبر الـ Segue
         // Get the new view controller using segue.destination.
-       
+        let weatherVC = segue.destination as! weatherDetails
+       let city = sender as! City
+        weatherVC.city = sender as! City
         //📌مرر هيكل City الى الواجهة الجديدة
         // Pass the selected object to the new view controller.
     
